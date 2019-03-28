@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MaryApplication</string>
+    <string name="login_hint">Логин</string>
+    <string name="password_hint">Пароль</string>
+    <string name="loginEnter">Войти</string>
+    <string name="loginRegister">Зарегестрироваться</string>
+    <string name="inputError">Ошибка ввода данных</string>
+    <string name="Email">Email</string>
+    <string name="Password">Password</string>
+</resources>
