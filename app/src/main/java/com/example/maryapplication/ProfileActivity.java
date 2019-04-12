@@ -2,7 +2,6 @@ package com.example.maryapplication;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,7 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         User user = (User) bundle.get(USER_KEY);
-        mLogin.setText(user.getmLogin());
+        mLogin.setText(user.getLogin());
         mPassword.setText( user.getmPassword() );
 
         mPhoto.setOnClickListener( mOnPhotoClickListener );

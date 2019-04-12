@@ -7,4 +7,10 @@
     <string name="inputError">Ошибка ввода данных</string>
     <string name="Email">Email</string>
     <string name="Password">Password</string>
+    <string name="email">email</string>
+    <string name="password_enter">password</string>
+    <string name="password_enter_again">please, enter the password again</string>
+    <string name="register">click on it to register</string>
+    <string name="login_register_success">The registration is successful</string>
+    <string name="login_register_error">The registration is failed</string>
 </resources>

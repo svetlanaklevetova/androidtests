@@ -53,6 +53,10 @@ public class AuthFragment extends Fragment {
     private View.OnClickListener mOnRegisterClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainer, RegistrationFragment.newInstance())
+                    .commit();
 
         }
     };

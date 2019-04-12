@@ -19,7 +19,7 @@ public class User implements Serializable {
         this.mPassword = mPassword;
     }
 
-    public String getmLogin() {
+    public String getLogin() {
         return mLogin;
     }
 
