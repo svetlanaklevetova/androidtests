@@ -10,6 +10,8 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -18,13 +20,14 @@ import java.util.List;
 
 public class AuthFragment extends Fragment {
 
-    private EditText mLogin;
+    private AutoCompleteTextView mLogin;
     private EditText mPassword;
 
     private Button mEnter;
     private Button mRegister;
 
     private SharedPreferencesHelper mSharedPreferencesHelper;
+    private ArrayAdapter<String> mLoginedUsersAdapter;
 
     public static AuthFragment newInstance() {
         Bundle args = new Bundle();
@@ -39,35 +42,29 @@ public class AuthFragment extends Fragment {
 
     private View.OnClickListener mOnEnterClickListener = new View.OnClickListener() {
         @Override
-        public void onClick(View v) {
-            boolean isLoginSuccess=false;
-            if(isEmailValid() && isPasswordValid())
-            {
-                 List<User> users = mSharedPreferencesHelper.getUsers();
-                 for(User user: users)
-                 {
-                     if(user.getLogin().equalsIgnoreCase( mLogin.getText().toString() )
-                             && user.getmPassword().equals( mPassword.getText().toString() )
-                     && !isLoginSuccess) {
-                         isLoginSuccess = true;
-
-                         {
-                             Intent startProfileIntent = new Intent( getActivity(), ProfileActivity.class );
-                             startProfileIntent.putExtra( ProfileActivity.USER_KEY, new User( mLogin.getText().toString(), mPassword.getText().toString() ) );
-                             startActivity( startProfileIntent );
-
-                         }
-                     }
-                 }
-                if(!isLoginSuccess)
-                {
-                    showMessage( R.string.login_fail );
+        public void onClick(View view) {
+            if (isEmailValid() && isPasswordValid()) {
+                if (mSharedPreferencesHelper.login(new User(
+                        mLogin.getText().toString(),
+                        mPassword.getText().toString()))) {
+                    Intent startProfileIntent =
+                            new Intent(getActivity(), ProfileActivity.class);
+                    startProfileIntent.putExtra(ProfileActivity.USER_KEY,
+                            new User(mLogin.getText().toString(), mPassword.getText().toString()));
+                    startActivity(startProfileIntent);
+                    getActivity().finish();
+                } else {
+                    showMessage(R.string.login_fail);
                 }
+            } else {
+                showMessage(R.string.inputError);
             }
+
 
 
         }
     };
+
 
     private View.OnClickListener mOnRegisterClickListener = new View.OnClickListener() {
         @Override
@@ -98,6 +95,15 @@ public class AuthFragment extends Fragment {
         return !TextUtils.isEmpty( mLogin.getText());
     }
 
+    private View.OnFocusChangeListener mOnLoginFocusChangeListener = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean hasFocus) {
+            if (hasFocus) {
+//                mLogin.showDropDown();
+            }
+        }
+    };
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -109,6 +115,14 @@ public class AuthFragment extends Fragment {
         mPassword = v.findViewById(R.id.etPasssword);
         mEnter = v.findViewById(R.id.buttonEnter);
         mRegister = v.findViewById(R.id.buttonRegister);
+
+        mLogin.setOnFocusChangeListener( mOnLoginFocusChangeListener );
+        mLoginedUsersAdapter = new ArrayAdapter<>( getActivity(),
+                android.R.layout.simple_dropdown_item_1line,
+                mSharedPreferencesHelper.getSuccessLogins());
+
+        mLogin.setAdapter( mLoginedUsersAdapter );
+
 
         mEnter.setOnClickListener(mOnEnterClickListener);
         mRegister.setOnClickListener(mOnRegisterClickListener);
