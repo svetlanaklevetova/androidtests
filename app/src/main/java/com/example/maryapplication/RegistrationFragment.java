@@ -74,6 +74,8 @@ public class RegistrationFragment extends Fragment {
         mPasswordAgain = view.findViewById(R.id.tvPasswordAgain);
         mRegistration = view.findViewById(R.id.btnRegistration);
 
+
+
         mRegistration.setOnClickListener(mOnRegistrationClickListener);
 
         return view;

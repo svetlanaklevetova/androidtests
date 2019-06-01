@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.List;
+
 public class AuthFragment extends Fragment {
 
     private EditText mLogin;
@@ -39,31 +41,30 @@ public class AuthFragment extends Fragment {
         @Override
         public void onClick(View v) {
             boolean isLoginSuccess=false;
-            for(User user: mSharedPreferencesHelper.getUsers())
+            if(isEmailValid() && isPasswordValid())
             {
-                if(user.getLogin().equalsIgnoreCase( mLogin.getText().toString() )
-                && user.getmPassword().equals( mPassword.getText().toString() ))
+                 List<User> users = mSharedPreferencesHelper.getUsers();
+                 for(User user: users)
+                 {
+                     if(user.getLogin().equalsIgnoreCase( mLogin.getText().toString() )
+                             && user.getmPassword().equals( mPassword.getText().toString() )
+                     && !isLoginSuccess) {
+                         isLoginSuccess = true;
+
+                         {
+                             Intent startProfileIntent = new Intent( getActivity(), ProfileActivity.class );
+                             startProfileIntent.putExtra( ProfileActivity.USER_KEY, new User( mLogin.getText().toString(), mPassword.getText().toString() ) );
+                             startActivity( startProfileIntent );
+
+                         }
+                     }
+                 }
+                if(!isLoginSuccess)
                 {
-                    isLoginSuccess = true;
-                    if(isEmailValid() && isPasswordValid())
-                    {
-                        Intent startProfileIntent = new Intent(getActivity(), ProfileActivity.class);
-                        startProfileIntent.putExtra(ProfileActivity.USER_KEY, new User (mLogin.getText().toString(),mPassword.getText().toString()) );
-                        startActivity(startProfileIntent);
-
-                    }
-                    else
-                    {
-                        showMessage( R.string.inputError );
-                    }
+                    showMessage( R.string.login_fail );
                 }
-                break;
             }
 
-            if(!isLoginSuccess)
-            {
-                showMessage( R.string.login_register_error );
-            }
 
         }
     };
