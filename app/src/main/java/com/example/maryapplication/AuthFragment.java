@@ -115,6 +115,7 @@ public class AuthFragment extends Fragment {
         mPassword = v.findViewById(R.id.etPasssword);
         mEnter = v.findViewById(R.id.buttonEnter);
         mRegister = v.findViewById(R.id.buttonRegister);
+        
 
         mLogin.setOnFocusChangeListener( mOnLoginFocusChangeListener );
         mLoginedUsersAdapter = new ArrayAdapter<>( getActivity(),
