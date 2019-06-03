@@ -44,13 +44,13 @@ public class AuthFragment extends Fragment {
         @Override
         public void onClick(View view) {
             if (isEmailValid() && isPasswordValid()) {
-                if (mSharedPreferencesHelper.login(new User(
-                        mLogin.getText().toString(),
-                        mPassword.getText().toString()))) {
+                User user = mSharedPreferencesHelper.login(mLogin.getText().toString(),
+                        mPassword.getText().toString());
+                if (user != null) {
                     Intent startProfileIntent =
                             new Intent(getActivity(), ProfileActivity.class);
-                    startProfileIntent.putExtra(ProfileActivity.USER_KEY,
-                            new User(mLogin.getText().toString(), mPassword.getText().toString()));
+                    startProfileIntent.putExtra(ProfileActivity.USER_KEY, user);
+
                     startActivity(startProfileIntent);
                     getActivity().finish();
                 } else {
@@ -115,9 +115,9 @@ public class AuthFragment extends Fragment {
         mPassword = v.findViewById(R.id.etPasssword);
         mEnter = v.findViewById(R.id.buttonEnter);
         mRegister = v.findViewById(R.id.buttonRegister);
-        
 
-        mLogin.setOnFocusChangeListener( mOnLoginFocusChangeListener );
+
+        //mLogin.setOnFocusChangeListener( mOnLoginFocusChangeListener );
         mLoginedUsersAdapter = new ArrayAdapter<>( getActivity(),
                 android.R.layout.simple_dropdown_item_1line,
                 mSharedPreferencesHelper.getSuccessLogins());

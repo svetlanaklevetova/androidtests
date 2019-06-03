@@ -1,11 +1,13 @@
 package com.example.maryapplication;
 
+import android.net.Uri;
+
 import java.io.Serializable;
 
 public class User implements Serializable {
     private String mLogin;
     private String mPassword;
-    private String mPhotoUri;
+    private Uri mPhotoUri;
     private boolean mHasSuccessLogin;
 
     public User(String login, String password) {
@@ -29,11 +31,11 @@ public class User implements Serializable {
         mPassword = password;
     }
 
-    public String getPhotoUri() {
+    public Uri getPhotoUri() {
         return mPhotoUri;
     }
 
-    public void setPhotoUri(String photoUri) {
+    public void setPhotoUri(Uri photoUri) {
         mPhotoUri = photoUri;
     }
 
